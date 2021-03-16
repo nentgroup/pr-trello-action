@@ -1,0 +1,44 @@
+name: 'Trello card from PR'
+description: 'Creates a trello card with details of new PRs'
+
+inputs:
+
+  api-key:
+    description: '**Required**. The API key to use, see https://trello.com/app-key'
+    required: true
+
+  api-token:
+    description: '**Required**. The API token to use, see https://trello.com/app-key'
+    required: true
+
+  list-id:
+    description: |
+      **Required**. ID of the list where to create the card.
+      E.g: 603fa7d65a33890b500db093
+      May be acquired by adding the extension `.json` to a board or card
+      url and searching through the result.
+    required: true
+
+  title-format:
+    description: |
+      Optional. Formatting of the card title.
+      Available placeholders: ${title}
+    required: false
+    default: '${title}'
+
+  label-ids:
+    description: |
+      Optional. List of label ids (comma or newline separated) to assign
+      to the cards created. Label ids may be acquired by adding the extension
+      `.json` to a board or card url and searching through the result.
+    required: false
+    default: ''
+
+  position:
+    description: 'Optional. Where to put the new card, `top` or `bottom`. Defaults to `bottom`.'
+    required: false
+    default: 'bottom'
+
+runs:
+  using: 'node12'
+  main: 'dist/index.js'

@@ -1,0 +1,16 @@
+name: 'ci'
+on:
+  push:
+    branches-ignore:
+      - 'mob/**'
+      - 'mob-session'
+  pull_request:
+
+jobs:
+  test:
+    runs-on: 'ubuntu-latest'
+    steps:
+      - uses: 'actions/checkout@v2'
+      - run: |
+          npm ci
+          npm test
