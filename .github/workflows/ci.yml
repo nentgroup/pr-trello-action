@@ -4,7 +4,9 @@ on:
     branches-ignore:
       - 'mob/**'
       - 'mob-session'
-  pull_request:
+  pull_request_target:
+    branches:
+      - 'main'
 
 jobs:
   test:
