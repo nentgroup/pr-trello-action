@@ -1,6 +1,6 @@
 {
   "name": "pr-trello-action",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,12 @@
     "test": "jest",
     "watch": "jest --watchAll"
   },
-  "keywords": ["trello", "github", "pr", "action"],
+  "keywords": [
+    "trello",
+    "github",
+    "pr",
+    "action"
+  ],
   "author": "johan.stenqvist@nentgroup.com",
   "license": "MIT",
   "dependencies": {
