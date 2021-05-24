@@ -21,7 +21,7 @@ List and label ids may be acquired by adding the extension `.json` to a board or
 ```yml
 name: Create card from PR
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
 
@@ -41,7 +41,7 @@ jobs:
 ```yml
 name: Create card from PR
 on:
-  pull_request:
+  pull_request_target:
     types:
       - opened
 
