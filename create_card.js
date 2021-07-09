@@ -1,5 +1,7 @@
 'use strict';
 
+const Trello = require('./trello');
+
 module.exports = (trello) => ({
 
 	fromPR: async (pullRequest, { listId, position = 'bottom', titleFormat = '${title}', labelIds = [] }) => {
@@ -16,10 +18,11 @@ module.exports = (trello) => ({
 		if (!listId) {
 			throw new Error('listId is required.');
 		}
+		const description = (url + '\n\n' + body).substr(0, Trello.CARD_DESCRIPTION_MAX_LENGTH);
 
 		await trello.createCard({
 			name: titleFormat.replace('${title}', title),
-			description: body + '\n\n' + url,
+			description,
 			listId,
 			position,
 			labelIds,

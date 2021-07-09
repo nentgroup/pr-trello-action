@@ -16,7 +16,7 @@ class ApiError extends Error {
 	}
 }
 
-module.exports = class {
+class Trello {
 
 	constructor	({ apiKey, apiToken }) {
 		this.apiKey = apiKey;
@@ -66,4 +66,7 @@ module.exports = class {
 		return result;
 	}
 
-};
+}
+
+Trello.CARD_DESCRIPTION_MAX_LENGTH = 11940;
+module.exports = Trello;

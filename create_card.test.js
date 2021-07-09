@@ -17,13 +17,33 @@ test('basic example', async () => {
 	expect(trello.createCard).toHaveBeenCalledWith({
 		listId: 'my-list',
 		name: pull_request.title,
-		description: pull_request.body + '\n\n' + pull_request.html_url,
+		description: expect.stringContainingAllOf(
+			pull_request.html_url,
+			pull_request.body
+		),
 		position: 'bottom',
 		labelIds: [],
 	});
 
 });
 
+test('ensure card description is not exceeding the limit', async () => {
+	const trello = new Trello();
+	const { fromPR } = createCard(trello);
+	const pull_request_too_big = {
+		...pull_request,
+		body: 'b'.repeat(Trello.CARD_DESCRIPTION_MAX_LENGTH),
+		html_url: 'u'.repeat(100),
+	};
+
+	await fromPR(pull_request_too_big, { listId: 'my-list' });
+
+	expect(trello.createCard).toHaveBeenCalledWith(
+		expect.objectContaining({
+			description: expect.toBeNoLongerThan(Trello.CARD_DESCRIPTION_MAX_LENGTH),
+		})
+	);
+});
 
 describe('input validation', () => {
 
@@ -50,4 +70,38 @@ describe('input validation', () => {
 		await expect(fromPR(pull_request, params)).rejects.toThrow();
 	});
 
+});
+
+
+expect.extend({
+	toBeNoLongerThan(received, length) {
+		const pass = received.length <= length;
+		if (pass) {
+			return {
+				message: () =>
+					`expected length (${received.length}) not to be greater ${length}`,
+				pass: true,
+			};
+		} else {
+			return {
+				message: () =>
+					`expected length (${received.length}) to be at most ${length}`,
+				pass: false,
+			};
+		}
+	},
+
+	stringContainingAllOf(received, ...parts) {
+		try {
+			for (const part of parts) {
+				expect(received).toContain(part);
+			}
+		} catch (ex) {
+			return ex;
+		}
+		return {
+			message: () => `expected ${received} to contain all of ${parts}`,
+			pass: true,
+		};
+	}
 });
