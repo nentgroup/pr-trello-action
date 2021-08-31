@@ -68,5 +68,5 @@ class Trello {
 
 }
 
-Trello.CARD_DESCRIPTION_MAX_LENGTH = 11940;
+Trello.CARD_DESCRIPTION_MAX_LENGTH = 10000;
 module.exports = Trello;
