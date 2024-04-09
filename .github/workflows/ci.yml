@@ -1,18 +1,17 @@
 name: 'ci'
 on:
   push:
-    branches-ignore:
-      - 'mob/**'
-      - 'mob-session'
-  pull_request_target:
-    branches:
-      - 'main'
 
 jobs:
-  test:
-    runs-on: 'ubuntu-latest'
+  ci:
+    runs-on: ubuntu-latest
     steps:
-      - uses: 'actions/checkout@v2'
-      - run: |
-          npm ci
-          npm test
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: '.nvmrc'
+          cache: 'npm'
+
+      - run: npm ci --ignore scripts
+      - run: npm test
